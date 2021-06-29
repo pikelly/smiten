@@ -1,17 +1,21 @@
 module Smiten
-  class Smite < Connector
+  # The Smite class implements those calls that are specific to the Smite endpoint
+  class Smite < Core
+    # See Core
     def initialize(options)
       options.merge!(url: SmiteEndpoint)
       super(options)
     end
 
-    def set_calls
+    def build_apis # :nodoc:
       @calls = {
-        getgods:                [ 'God',     -> { "#{boilerplate('getgods')}/#{language_code}"}],
-        getgodleaderboard:      [ nil,       -> { "#{boilerplate('getgodleaderboard')}/#{god_id}/#{queue_id}"}, {god_id: 9999, queue_id: 424}],
-        getgodskins:            [ 'GodSkin', -> { "#{boilerplate('getgodskins')}/#{god_id}/#{language_code}"}, {god_id: 9999}],
-        getgodrecommendeditems: [ nil,       -> { "#{boilerplate('getgodrecommendeditems')}/#{god_id}/#{language_code}"}, {god_id: 9999}],
-        getgodranks:            [ nil,       -> { "#{boilerplate('getgodranks')}/#{god_id}"}, {god_id: 9999}],
+        get_gods:                  ['God',     -> { "#{boilerplate('getgods')}/#{language_code}"}],
+        get_god_leaderboard:       [nil,       -> { "#{boilerplate('getgodleaderboard')}/#{god_id}/#{queue_id}"}],
+        get_god_skins:             ['GodSkin', -> { "#{boilerplate('getgodskins')}/#{god_id}/#{language_code}"}],
+        get_god_recommended_items: [nil,       -> { "#{boilerplate('getgodrecommendeditems')}/#{god_id}/#{language_code}"}],
+        get_god_ranks:             [nil,       -> { "#{boilerplate('getgodranks')}/#{player_id}"}],
+        get_player_achievements:   [nil,       -> { "#{boilerplate('getplayerachievements')}/#{player_id}" }],
+        search_teams:              [nil,       -> { "#{boilerplate('searchteams')}/#{search_string}" }],
       }
       super
     end
