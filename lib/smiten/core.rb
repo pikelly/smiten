@@ -27,11 +27,7 @@ module Smiten
 
         self.class.define_method(api) do |args = {}|
           args.each_pair do |key, value|
-            if key == :timeout
-              @url.timeout = value
-            else
-              send("#{key}=", value)
-            end
+            send("#{key}=", value)
           end
           @url = calls[api][1].call
           payload = get
@@ -130,11 +126,11 @@ module Smiten
         when result.status == 504
           puts '* Gateway Timeout detected... Retrying'
         else
-          raise(Error, "API Response Error:\n#{textify(result.body)}")
+          raise(Error, "API Response Error:#{textify(result.body)}")
         end
       end
-      puts "* Timeout detected... Terminating after #{Time.new - start} seconds"
-      ''
+      puts "* Timeout detected... Terminating after #{Time.now - start} seconds"
+      nil
     end
 
     def textify(html) # :nodoc:
