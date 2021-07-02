@@ -93,7 +93,7 @@ module Smiten
 
     # Sets the champion_id on the connection and returns the connection
     def for_champion(id)
-      self.id = id
+      self.champion_id = id
       yield(self)
     end
 
